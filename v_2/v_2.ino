@@ -38,6 +38,7 @@ Adafruit_DCMotor *paper2 = AFMS.getMotor(1);
 boolean DEBUG = true;
 
 int winchDepth = 0;
+int currentHeight;
 
 
 void setup() {
@@ -48,9 +49,10 @@ void setup() {
   //AFMS.begin(1000);  // OR with a different frequency, say 1KHz
   
   defineMotors();
+  delay(1000);
   pinMode ( winchStopPin, INPUT);
   
-  
+  lowerWinch(6000);
 }
 
 void loop() {
@@ -61,8 +63,8 @@ void loop() {
   
   Serial.print("tick");
 
-  currentHeight = getHeight();
-  advancePaper();
+  //currentHeight = getHeight();
+  //advancePaper();
   
 
   paper1->run(FORWARD);
@@ -99,4 +101,6 @@ void loop() {
   paper1->run(RELEASE);
   paper2->setSpeed(i); 
   delay(1000);
+  
+  lowerWinch(3000);
 }

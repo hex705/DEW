@@ -13,8 +13,8 @@
   
 void moveWinch ( int wDirection, int howFar, int winchSpeed ) {
   
-  String db = "movewinch " + wDIrection + " " + winchSpeed;
-  if (DEBUG) Serial.print(db);
+
+  if (DEBUG) Serial.print("winch move");
   // stop switch on pin 2
    winch->setSpeed(winchSpeed);  
    winch->run(wDirection);
@@ -28,7 +28,7 @@ void lowerWinch() {
 }
 
 void lowerWinch(int howFar ) {
-   moveWinch (BACKWARD, 150, howFar); 
+   moveWinch (BACKWARD, howFar, 150); 
 }
 
 void lowerWinch(  int howFar, int mSpeed ) {
@@ -46,18 +46,19 @@ void raiseWinch(int howFar, int mSpeed) {
 
 
 void resetWinch(){
-  
+  Serial.println("start reset");
   int atTop = digitalRead( winchStopPin );
   
   while ( !atTop ){
-    
+    Serial.println("looping");
     raiseWinch(10, 150);
     atTop = digitalRead( winchStopPin );
     
   }
-  
+  Serial.println("done");
   winch->run(RELEASE);
-  lowerWinch(250);
+  lowerWinch(150,100);
+  Serial.println("lowered");
   
   winchDepth = 0;
   
